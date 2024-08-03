@@ -16,7 +16,6 @@ namespace online_shop_api.Models
         public string Description { get; set; }
         public double Price { get; set; }
         public string Category { get; set; }
-        public string Image { get; set; }
 
         // Navigation property to store
         [ForeignKey("StoreId")]
@@ -24,14 +23,13 @@ namespace online_shop_api.Models
     
         // Constructor
         public Product() { }
-        public Product(int id, string name, string description, double price, string category, string image, Store store)
+        public Product(int id, string name, string description, double price, string category, Store store)
         {
             Id = id;
             Name = name;
             Description = description;
             Price = price;
             Category = category;
-            Image = image;
             Store = store;
         }
     }

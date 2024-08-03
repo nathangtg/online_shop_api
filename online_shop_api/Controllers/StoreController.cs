@@ -66,7 +66,7 @@ namespace online_shop_api.Controllers
         }
 
         [HttpPut("stores/{id}")]
-        public IActionResult UpdateStore(int id, [FromBody] Store store)
+        public IActionResult UpdateStore(int id, [FromBody] StoreDto store)
         {
             var existingStore = _context.Stores.FirstOrDefault(s => s.Id == id);
 
