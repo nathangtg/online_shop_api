@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "VzlkGjLPXzQDiSFci1ecKM4W6jHhlDV6IrZj2tVo78I=",
+  "Source": "online_shop_api",
+  "BasePath": "_content/online_shop_api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
