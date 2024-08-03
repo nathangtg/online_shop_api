@@ -23,9 +23,10 @@ namespace online_shop_api.Models
     
         // Constructor
         public Product() { }
-        public Product(int id, string name, string description, double price, string category, Store store)
+        public Product(int id, int storeId, string name, string description, double price, string category, Store store)
         {
             Id = id;
+            StoreId = storeId;
             Name = name;
             Description = description;
             Price = price;

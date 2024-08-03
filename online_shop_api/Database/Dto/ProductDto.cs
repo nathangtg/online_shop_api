@@ -9,6 +9,9 @@ namespace online_shop_api.Database.Dto
     public class ProductDto
     {
         [Required]
+        public int StoreId { get; set; }
+
+        [Required]
         public string Name { get; set; }
 
         [Required]

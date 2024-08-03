@@ -44,6 +44,7 @@ namespace online_shop_api.Controllers
         {
             var product = new Product
             {
+                StoreId = productDto.StoreId,
                 Name = productDto.Name,
                 Description = productDto.Description,
                 Price = productDto.Price,
@@ -52,6 +53,9 @@ namespace online_shop_api.Controllers
 
             _context.Products.Add(product);
             _context.SaveChanges();
+
+
+            System.Console.WriteLine(product.StoreId);
 
             return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product);
         }
