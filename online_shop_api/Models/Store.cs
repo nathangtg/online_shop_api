@@ -12,6 +12,9 @@ namespace online_shop_api.Models
         [Key]
         public int Id { get; set; }
         public string UserId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Address { get; set; }
 
         // Navigation property
         [ForeignKey("UserId")]
@@ -20,10 +23,13 @@ namespace online_shop_api.Models
 
         // Constructor
         public Store() { }
-        public Store(List<Product> products, User user)
+
+        public Store(string userId, string name, string description, string address)
         {
-            Products = products;
-            User = user;
+            UserId = userId;
+            Name = name;
+            Description = description;
+            Address = address;
         }
     }
 }
