@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using online_shop_api.Database;
+using online_shop_api.Database.Dto;
 using online_shop_api.Models;
 
 namespace online_shop_api.Controllers
@@ -41,8 +43,22 @@ namespace online_shop_api.Controllers
         }
 
         [HttpPost("stores")]
-        public IActionResult CreateStore([FromBody] Store store)
+        public IActionResult CreateStore([FromBody] StoreDto storeDto)
         {
+            var username = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+
+            var user_id = _context.Users.FirstOrDefault(u => u.UserName == username)?.Id ?? "";
+
+            var store = new Store
+            {
+                UserId = user_id,
+                Name = storeDto.Name,
+                Description = storeDto.Description,
+                Address = storeDto.Address
+            };
+
+            System.Console.WriteLine(store.UserId);
+
             _context.Stores.Add(store);
             _context.SaveChanges();
 
