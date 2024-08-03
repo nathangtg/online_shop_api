@@ -14,7 +14,11 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("online_shop_api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
+<<<<<<< HEAD
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+689ae65fd81e59b658c27796f3489c61fa62f2fb")]
+=======
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dd89f552e380d7f1c943de35912d00072fed038c")]
+>>>>>>> c8ff431 (Stage)
 [assembly: System.Reflection.AssemblyProductAttribute("online_shop_api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("online_shop_api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
