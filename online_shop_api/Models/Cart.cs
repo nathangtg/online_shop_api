@@ -14,20 +14,31 @@ namespace online_shop_api.Models
 
         public string UserId { get; set; }
 
-        public List<Product> Products { get; set; }
+        public List<CartProduct> Products { get; set; }
+
+        public double TotalPrice { get; set; }
 
         // Navigation property
         [ForeignKey("UserId")]
         public User User { get; set; }
 
-        // Constructor
-        public Cart() { }
-        public Cart(int id, string userId, List<Product> products, User user)
+        // Get total price of all products in the cart
+        public void CalculateTotalPrice()
         {
-            Id = id;
+            TotalPrice = 0;
+            foreach (var product in Products)
+            {
+                TotalPrice += product.Product.Price * product.Quantity;
+            }
+        }
+
+        public Cart() { }
+
+        public Cart(string userId, List<CartProduct> products)
+        {
             UserId = userId;
             Products = products;
-            User = user;
+            CalculateTotalPrice();
         }
     }
 }
