@@ -21,64 +21,64 @@ namespace online_shop_api.Controllers
             _context = context;
         }
 
-        [HttpGet("products")]
+        [HttpGet("stores")]
         public IActionResult GetStores()
         {
-            return Ok(_context.Products.ToList());
+            return Ok(_context.Stores.ToList());
         }
 
-        [HttpGet("products/{id}")]
+        [HttpGet("stores/{id}")]
         public IActionResult GetStore(int id)
         {
-            var product = _context.Products.FirstOrDefault(p => p.Id == id);
+            var store = _context.Stores.FirstOrDefault(s => s.Id == id);
 
-            if (product == null)
+            if (store == null)
             {
                 return NotFound();
             }
 
-            return Ok(product);
+            return Ok(store);
         }
 
-        [HttpPost("products")]
-        public IActionResult CreateStore([FromBody] Product product)
+        [HttpPost("stores")]
+        public IActionResult CreateStore([FromBody] Store store)
         {
-            _context.Products.Add(product);
+            _context.Stores.Add(store);
             _context.SaveChanges();
 
-            return CreatedAtAction(nameof(GetStore), new { id = product.Id }, product);
+            return CreatedAtAction(nameof(GetStore), new { id = store.Id }, store);
         }
 
-        [HttpPut("products/{id}")]
-        public IActionResult UpdateStore(int id, [FromBody] Product product)
+        [HttpPut("stores/{id}")]
+        public IActionResult UpdateStore(int id, [FromBody] Store store)
         {
-            var existingProduct = _context.Products.FirstOrDefault(p => p.Id == id);
+            var existingStore = _context.Stores.FirstOrDefault(s => s.Id == id);
 
-            if (existingProduct == null)
+            if (existingStore == null)
             {
                 return NotFound();
             }
 
-            existingProduct.Name = product.Name;
-            existingProduct.Price = product.Price;
-            existingProduct.Description = product.Description;
+            existingStore.Name = store.Name;
+            existingStore.Address = store.Address;
+            existingStore.Description = store.Description;
 
             _context.SaveChanges();
 
             return NoContent();
         }
 
-        [HttpDelete("products/{id}")]
+        [HttpDelete("stores/{id}")]
         public IActionResult DeleteStore(int id)
         {
-            var product = _context.Products.FirstOrDefault(p => p.Id == id);
+            var store = _context.Stores.FirstOrDefault(s => s.Id == id);
 
-            if (product == null)
+            if (store == null)
             {
                 return NotFound();
             }
 
-            _context.Products.Remove(product);
+            _context.Stores.Remove(store);
             _context.SaveChanges();
 
             return NoContent();
