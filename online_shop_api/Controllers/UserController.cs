@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using online_shop_api.Database;
@@ -66,5 +68,26 @@ namespace online_shop_api.Controllers
             return NoContent();
         }
 
+        [HttpGet("users/own")]
+        public IActionResult GetUser()
+        {
+            // Extract the user identifier from the JWT token claims
+            var userIdentifier = User.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+
+            if (string.IsNullOrEmpty(userIdentifier))
+            {
+                return Unauthorized("Token does not contain username.");
+            }
+
+            // Query the user from the database using the user identifier
+            var user = _context.Users.FirstOrDefault(u => u.UserName == userIdentifier);
+
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            return Ok(user);
+        }
     }
 }

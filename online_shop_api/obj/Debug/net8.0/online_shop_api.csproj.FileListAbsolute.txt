@@ -154,3 +154,4 @@ C:\Users\Nathan G\Desktop\Web Development\online_shop_api\online_shop_api\bin\De
 C:\Users\Nathan G\Desktop\Web Development\online_shop_api\online_shop_api\bin\Debug\net8.0\Microsoft.Extensions.Identity.Core.dll
 C:\Users\Nathan G\Desktop\Web Development\online_shop_api\online_shop_api\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\Nathan G\Desktop\Web Development\online_shop_api\online_shop_api\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+C:\Users\Nathan G\Desktop\Web Development\online_shop_api\online_shop_api\obj\Debug\net8.0\online_shop_api.sourcelink.json

@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using online_shop_api.Database;
 using online_shop_api.Database.Dto;
 using online_shop_api.Models;
@@ -12,15 +16,18 @@ namespace online_shop_api.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-        public class AuthController : ControllerBase
+    public class AuthController : ControllerBase
     {
-        private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly IConfiguration _configuration;
 
-        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager)
+        // Ensure only one constructor
+        public AuthController(SignInManager<User> signInManager, UserManager<User> userManager, IConfiguration configuration)
         {
-            _userManager = userManager;
             _signInManager = signInManager;
+            _userManager = userManager;
+            _configuration = configuration;
         }
 
         [HttpPost("login")]
@@ -30,7 +37,9 @@ namespace online_shop_api.Controllers
 
             if (result.Succeeded)
             {
-                return Ok();
+                var user = await _userManager.FindByNameAsync(loginDto.Username);
+                var token = GenerateJwtToken(user);
+                return Ok(new { Token = token });
             }
 
             if (result.IsLockedOut)
@@ -47,19 +56,40 @@ namespace online_shop_api.Controllers
             var user = new User
             {
                 UserName = registerDto.Username,
-                Email = registerDto.Email,
-                Role = registerDto.Role
+                Email = registerDto.Email
             };
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
 
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, registerDto.Role);
                 return Ok();
             }
 
             return BadRequest(result.Errors);
         }
+
+        private string GenerateJwtToken(User user)
+        {
+            var claims = new[]
+            {
+                new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier", user.UserName ?? user.Id.ToString()), // Use ID or UserName depending on your needs
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), 
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["Jwt:Issuer"],
+                audience: _configuration["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddHours(1),
+                signingCredentials: creds);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
     }
-}
+    }
